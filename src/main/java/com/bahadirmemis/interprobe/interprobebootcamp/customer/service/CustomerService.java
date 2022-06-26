@@ -9,6 +9,7 @@ import com.bahadirmemis.interprobe.interprobebootcamp.customer.entity.Customer;
 import com.bahadirmemis.interprobe.interprobebootcamp.customer.enums.CustomerErrorMessage;
 import com.bahadirmemis.interprobe.interprobebootcamp.customer.enums.EnumStatus;
 import com.bahadirmemis.interprobe.interprobebootcamp.customer.service.entityservice.CustomerEntityService;
+import com.bahadirmemis.interprobe.interprobebootcamp.generic.enums.GeneralErrorMessage;
 import com.bahadirmemis.interprobe.interprobebootcamp.generic.exceptions.BusinessException;
 import com.bahadirmemis.interprobe.interprobebootcamp.generic.exceptions.ItemNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -47,6 +48,10 @@ public class CustomerService {
     }
 
     public CustomerResponseDto save(CustomerSaveRequestDto customerSaveRequestDto){
+
+        if (customerSaveRequestDto == null){
+            throw new BusinessException(GeneralErrorMessage.VALUES_CANNOT_BE_NULL);
+        }
 
 //        Customer customer = customerConverter.convertToCustomer(customerSaveRequestDto);
         Customer customer = CustomerMapper.INSTANCE.convertToCustomer(customerSaveRequestDto);
