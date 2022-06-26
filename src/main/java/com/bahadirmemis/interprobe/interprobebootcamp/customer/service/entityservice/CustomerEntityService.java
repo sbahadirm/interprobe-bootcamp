@@ -37,4 +37,8 @@ public class CustomerEntityService {
     public void delete(Customer customer){
         customerDao.delete(customer);
     }
+
+    public boolean isExist(Long id){
+        return customerDao.existsById(id);
+    }
 }

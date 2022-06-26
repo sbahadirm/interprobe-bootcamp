@@ -48,4 +48,17 @@ public class CustomerController {
     public void delete(@PathVariable Long id){
         customerEntityService.delete(id);
     }
+
+    @PutMapping
+    public Customer update(@RequestBody Customer customer){
+
+        boolean isExist = customerEntityService.isExist(customer.getId());
+        if (!isExist){
+            throw new RuntimeException("Customer not found!");
+        }
+
+        customer = customerEntityService.save(customer);
+
+        return customer;
+    }
 }
