@@ -1,6 +1,7 @@
 package com.bahadirmemis.interprobe.interprobebootcamp.customer.entity;
 
 import com.bahadirmemis.interprobe.interprobebootcamp.customer.enums.EnumStatus;
+import com.bahadirmemis.interprobe.interprobebootcamp.generic.entity.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,7 +17,7 @@ import java.util.Date;
 @Table(name = "CUSTOMER")
 @Getter
 @Setter
-public class Customer {
+public class Customer extends BaseEntity {
 
     @Id
     @GeneratedValue(generator = "Customer")
