@@ -5,7 +5,9 @@ import com.bahadirmemis.interprobe.interprobebootcamp.customer.dto.CustomerSaveR
 import com.bahadirmemis.interprobe.interprobebootcamp.customer.dto.CustomerUpdateRequestDto;
 import com.bahadirmemis.interprobe.interprobebootcamp.customer.entity.Customer;
 import com.bahadirmemis.interprobe.interprobebootcamp.customer.service.CustomerService;
+import com.bahadirmemis.interprobe.interprobebootcamp.generic.response.RestResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,8 +24,9 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @GetMapping
-    public List<CustomerResponseDto> findAll(){
-        return customerService.findAll();
+    public ResponseEntity findAll(){
+        List<CustomerResponseDto> customerResponseDtoList = customerService.findAll();
+        return ResponseEntity.ok(RestResponse.of(customerResponseDtoList));
     }
 
     /**
@@ -34,27 +37,32 @@ public class CustomerController {
      * @return
      */
     @GetMapping("/{id}")
-    public CustomerResponseDto findById(@PathVariable Long id){
-        return customerService.findById(id);
+    public ResponseEntity findById(@PathVariable Long id){
+        CustomerResponseDto customerResponseDto = customerService.findById(id);
+        return ResponseEntity.ok(RestResponse.of(customerResponseDto));
     }
 
     @PostMapping
-    public CustomerResponseDto save(@RequestBody CustomerSaveRequestDto customerSaveRequestDto){
-        return customerService.save(customerSaveRequestDto);
+    public ResponseEntity save(@RequestBody CustomerSaveRequestDto customerSaveRequestDto){
+        CustomerResponseDto customerResponseDto = customerService.save(customerSaveRequestDto);
+        return ResponseEntity.ok(RestResponse.of(customerResponseDto));
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id){
+    public ResponseEntity delete(@PathVariable Long id){
         customerService.delete(id);
+        return ResponseEntity.ok(RestResponse.empty());
     }
 
     @PutMapping
-    public CustomerResponseDto update(@RequestBody CustomerUpdateRequestDto customerUpdateRequestDto){
-        return customerService.update(customerUpdateRequestDto);
+    public ResponseEntity update(@RequestBody CustomerUpdateRequestDto customerUpdateRequestDto){
+        CustomerResponseDto customerResponseDto = customerService.update(customerUpdateRequestDto);
+        return ResponseEntity.ok(RestResponse.of(customerResponseDto));
     }
 
     @PatchMapping("/cancel/{id}")
-    public CustomerResponseDto cancel(@PathVariable Long id){
-        return customerService.cancel(id);
+    public ResponseEntity cancel(@PathVariable Long id){
+        CustomerResponseDto customerResponseDto = customerService.cancel(id);
+        return ResponseEntity.ok(RestResponse.of(customerResponseDto));
     }
 }
