@@ -4,6 +4,7 @@ import com.bahadirmemis.interprobe.interprobebootcamp.customer.converter.Custome
 import com.bahadirmemis.interprobe.interprobebootcamp.customer.converter.CustomerMapper;
 import com.bahadirmemis.interprobe.interprobebootcamp.customer.dto.CustomerResponseDto;
 import com.bahadirmemis.interprobe.interprobebootcamp.customer.dto.CustomerSaveRequestDto;
+import com.bahadirmemis.interprobe.interprobebootcamp.customer.dto.CustomerUpdateRequestDto;
 import com.bahadirmemis.interprobe.interprobebootcamp.customer.entity.Customer;
 import com.bahadirmemis.interprobe.interprobebootcamp.customer.enums.EnumStatus;
 import com.bahadirmemis.interprobe.interprobebootcamp.customer.service.entityservice.CustomerEntityService;
@@ -24,12 +25,22 @@ public class CustomerService {
     private final CustomerEntityService customerEntityService;
     private final CustomerConverter customerConverter;
 
-    public List<Customer> findAll(){
-        return customerEntityService.findAll();
+    public List<CustomerResponseDto> findAll(){
+
+        List<Customer> customerList = customerEntityService.findAll();
+
+        List<CustomerResponseDto> customerResponseDtoList = CustomerMapper.INSTANCE.convertToCustomerResponseDtoList(customerList);
+
+        return customerResponseDtoList;
     }
 
-    public Customer findById(Long id){
-        return customerEntityService.findById(id).orElseThrow();
+    public CustomerResponseDto findById(Long id){
+
+        Customer customer = customerEntityService.findById(id).orElseThrow();
+
+        CustomerResponseDto customerResponseDto = CustomerMapper.INSTANCE.convertToCustomerResponseDto(customer);
+
+        return customerResponseDto;
     }
 
     public CustomerResponseDto save(CustomerSaveRequestDto customerSaveRequestDto){
@@ -56,16 +67,31 @@ public class CustomerService {
         return customerEntityService.isExist(id);
     }
 
-    public Customer cancel(Long id){
+    public CustomerResponseDto cancel(Long id){
 
         Customer customer = customerEntityService.findById(id).orElseThrow();
         customer.setStatus(EnumStatus.PASSIVE);
         customer.setCancelDate(new Date());
 
-        return customerEntityService.save(customer);
+        customer = customerEntityService.save(customer);
+
+        CustomerResponseDto customerResponseDto = CustomerMapper.INSTANCE.convertToCustomerResponseDto(customer);
+
+        return customerResponseDto;
+
     }
 
-    public Customer update(Customer customer) {
-        return null;//TODO:
+    public CustomerResponseDto update(CustomerUpdateRequestDto customerUpdateRequestDto) {
+
+        boolean isExist = customerEntityService.isExist(customerUpdateRequestDto.getId());
+        if (!isExist){
+            throw new RuntimeException("Customer does not exist!");
+        }
+
+        Customer customer = CustomerMapper.INSTANCE.convertToCustomer(customerUpdateRequestDto);
+
+        customer = customerEntityService.save(customer);
+
+        return CustomerMapper.INSTANCE.convertToCustomerResponseDto(customer);
     }
 }

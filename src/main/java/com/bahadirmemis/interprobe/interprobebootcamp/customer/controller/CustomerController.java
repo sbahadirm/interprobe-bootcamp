@@ -2,6 +2,7 @@ package com.bahadirmemis.interprobe.interprobebootcamp.customer.controller;
 
 import com.bahadirmemis.interprobe.interprobebootcamp.customer.dto.CustomerResponseDto;
 import com.bahadirmemis.interprobe.interprobebootcamp.customer.dto.CustomerSaveRequestDto;
+import com.bahadirmemis.interprobe.interprobebootcamp.customer.dto.CustomerUpdateRequestDto;
 import com.bahadirmemis.interprobe.interprobebootcamp.customer.entity.Customer;
 import com.bahadirmemis.interprobe.interprobebootcamp.customer.service.CustomerService;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,7 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @GetMapping
-    public List<Customer> findAll(){
+    public List<CustomerResponseDto> findAll(){
         return customerService.findAll();
     }
 
@@ -33,7 +34,7 @@ public class CustomerController {
      * @return
      */
     @GetMapping("/{id}")
-    public Customer findById(@PathVariable Long id){
+    public CustomerResponseDto findById(@PathVariable Long id){
         return customerService.findById(id);
     }
 
@@ -48,12 +49,12 @@ public class CustomerController {
     }
 
     @PutMapping
-    public Customer update(@RequestBody Customer customer){
-        return customerService.update(customer);
+    public CustomerResponseDto update(@RequestBody CustomerUpdateRequestDto customerUpdateRequestDto){
+        return customerService.update(customerUpdateRequestDto);
     }
 
     @PatchMapping("/cancel/{id}")
-    public Customer cancel(@PathVariable Long id){
+    public CustomerResponseDto cancel(@PathVariable Long id){
         return customerService.cancel(id);
     }
 }
