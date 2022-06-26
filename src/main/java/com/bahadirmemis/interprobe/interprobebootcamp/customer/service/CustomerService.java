@@ -6,8 +6,11 @@ import com.bahadirmemis.interprobe.interprobebootcamp.customer.dto.CustomerRespo
 import com.bahadirmemis.interprobe.interprobebootcamp.customer.dto.CustomerSaveRequestDto;
 import com.bahadirmemis.interprobe.interprobebootcamp.customer.dto.CustomerUpdateRequestDto;
 import com.bahadirmemis.interprobe.interprobebootcamp.customer.entity.Customer;
+import com.bahadirmemis.interprobe.interprobebootcamp.customer.enums.CustomerErrorMessage;
 import com.bahadirmemis.interprobe.interprobebootcamp.customer.enums.EnumStatus;
 import com.bahadirmemis.interprobe.interprobebootcamp.customer.service.entityservice.CustomerEntityService;
+import com.bahadirmemis.interprobe.interprobebootcamp.generic.exceptions.BusinessException;
+import com.bahadirmemis.interprobe.interprobebootcamp.generic.exceptions.ItemNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -85,7 +88,7 @@ public class CustomerService {
 
         boolean isExist = customerEntityService.isExist(customerUpdateRequestDto.getId());
         if (!isExist){
-            throw new RuntimeException("Customer does not exist!");
+            throw new ItemNotFoundException(CustomerErrorMessage.CUSTOMER_DOES_NOT_EXIST);
         }
 
         Customer customer = CustomerMapper.INSTANCE.convertToCustomer(customerUpdateRequestDto);
