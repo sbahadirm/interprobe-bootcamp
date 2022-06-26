@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -43,7 +44,7 @@ public class CustomerController {
     }
 
     @PostMapping
-    public ResponseEntity save(@RequestBody CustomerSaveRequestDto customerSaveRequestDto){
+    public ResponseEntity save(@Valid @RequestBody CustomerSaveRequestDto customerSaveRequestDto){
         CustomerResponseDto customerResponseDto = customerService.save(customerSaveRequestDto);
         return ResponseEntity.ok(RestResponse.of(customerResponseDto));
     }
