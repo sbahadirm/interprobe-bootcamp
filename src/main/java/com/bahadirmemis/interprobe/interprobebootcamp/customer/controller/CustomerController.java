@@ -1,13 +1,11 @@
 package com.bahadirmemis.interprobe.interprobebootcamp.customer.controller;
 
-import com.bahadirmemis.interprobe.interprobebootcamp.customer.dao.CustomerDao;
 import com.bahadirmemis.interprobe.interprobebootcamp.customer.entity.Customer;
-import com.bahadirmemis.interprobe.interprobebootcamp.customer.service.entityservice.CustomerEntityService;
+import com.bahadirmemis.interprobe.interprobebootcamp.customer.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author Bahadır Memiş
@@ -18,11 +16,11 @@ import java.util.Optional;
 @RequestMapping("/customers")
 public class CustomerController {
 
-    private final CustomerEntityService customerEntityService;
+    private final CustomerService customerService;
 
     @GetMapping
     public List<Customer> findAll(){
-        return customerEntityService.findAll();
+        return customerService.findAll();
     }
 
     /**
@@ -34,31 +32,26 @@ public class CustomerController {
      */
     @GetMapping("/{id}")
     public Customer findById(@PathVariable Long id){
-        Optional<Customer> customerOptional = customerEntityService.findById(id);
-
-        return customerOptional.get();
+        return customerService.findById(id);
     }
 
     @PostMapping
     public Customer save(@RequestBody Customer customer){
-        return customerEntityService.save(customer);
+        return customerService.save(customer);
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id){
-        customerEntityService.delete(id);
+        customerService.delete(id);
     }
 
     @PutMapping
     public Customer update(@RequestBody Customer customer){
+        return customerService.save(customer);
+    }
 
-        boolean isExist = customerEntityService.isExist(customer.getId());
-        if (!isExist){
-            throw new RuntimeException("Customer not found!");
-        }
-
-        customer = customerEntityService.save(customer);
-
-        return customer;
+    @PatchMapping("/cancel/{id}")
+    public Customer cancel(@PathVariable Long id){
+        return customerService.cancel(id);
     }
 }

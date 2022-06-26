@@ -50,4 +50,7 @@ public class Customer {
     @Enumerated(EnumType.STRING)
     private EnumStatus status;
 
+    @Column(name = "CANCEL_DATE")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date cancelDate;
 }
