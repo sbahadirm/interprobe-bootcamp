@@ -1,5 +1,9 @@
 package com.bahadirmemis.interprobe.interprobebootcamp.customer.service;
 
+import com.bahadirmemis.interprobe.interprobebootcamp.customer.converter.CustomerConverter;
+import com.bahadirmemis.interprobe.interprobebootcamp.customer.converter.CustomerMapper;
+import com.bahadirmemis.interprobe.interprobebootcamp.customer.dto.CustomerResponseDto;
+import com.bahadirmemis.interprobe.interprobebootcamp.customer.dto.CustomerSaveRequestDto;
 import com.bahadirmemis.interprobe.interprobebootcamp.customer.entity.Customer;
 import com.bahadirmemis.interprobe.interprobebootcamp.customer.enums.EnumStatus;
 import com.bahadirmemis.interprobe.interprobebootcamp.customer.service.entityservice.CustomerEntityService;
@@ -18,6 +22,7 @@ import java.util.List;
 public class CustomerService {
 
     private final CustomerEntityService customerEntityService;
+    private final CustomerConverter customerConverter;
 
     public List<Customer> findAll(){
         return customerEntityService.findAll();
@@ -27,14 +32,16 @@ public class CustomerService {
         return customerEntityService.findById(id).orElseThrow();
     }
 
-    public Customer save(Customer customer){
+    public CustomerResponseDto save(CustomerSaveRequestDto customerSaveRequestDto){
 
-        boolean isExist = isExist(customer.getId());
-        if (!isExist){
-            throw new RuntimeException("Customer not found!");
-        }
+//        Customer customer = customerConverter.convertToCustomer(customerSaveRequestDto);
+        Customer customer = CustomerMapper.INSTANCE.convertToCustomer(customerSaveRequestDto);
+        customer.setStatus(EnumStatus.ACTIVE);
+        customer = customerEntityService.save(customer);
 
-        return customerEntityService.save(customer);
+//        CustomerResponseDto customerResponseDto = customerConverter.convertToCustomerResponseDto(customer);
+        CustomerResponseDto customerResponseDto = CustomerMapper.INSTANCE.convertToCustomerResponseDto(customer);
+        return customerResponseDto;
     }
 
     public void delete(Long id){
@@ -56,5 +63,9 @@ public class CustomerService {
         customer.setCancelDate(new Date());
 
         return customerEntityService.save(customer);
+    }
+
+    public Customer update(Customer customer) {
+        return null;//TODO:
     }
 }

@@ -1,5 +1,7 @@
 package com.bahadirmemis.interprobe.interprobebootcamp.customer.controller;
 
+import com.bahadirmemis.interprobe.interprobebootcamp.customer.dto.CustomerResponseDto;
+import com.bahadirmemis.interprobe.interprobebootcamp.customer.dto.CustomerSaveRequestDto;
 import com.bahadirmemis.interprobe.interprobebootcamp.customer.entity.Customer;
 import com.bahadirmemis.interprobe.interprobebootcamp.customer.service.CustomerService;
 import lombok.RequiredArgsConstructor;
@@ -36,8 +38,8 @@ public class CustomerController {
     }
 
     @PostMapping
-    public Customer save(@RequestBody Customer customer){
-        return customerService.save(customer);
+    public CustomerResponseDto save(@RequestBody CustomerSaveRequestDto customerSaveRequestDto){
+        return customerService.save(customerSaveRequestDto);
     }
 
     @DeleteMapping("/{id}")
@@ -47,7 +49,7 @@ public class CustomerController {
 
     @PutMapping
     public Customer update(@RequestBody Customer customer){
-        return customerService.save(customer);
+        return customerService.update(customer);
     }
 
     @PatchMapping("/cancel/{id}")
