@@ -135,6 +135,30 @@ class CustomerServiceTest {
     }
 
     @Test
+    void shouldTestDelete() {
+
+        Customer customer = mock(Customer.class);
+
+        doNothing().when(customerEntityService).delete(customer);
+
+        customerService.delete(customer);
+
+        verify(customerEntityService).delete(any(Customer.class));
+    }
+
+    @Test
+    void shouldNotTestDelete() {
+
+        Customer customer = mock(Customer.class);
+
+        doThrow(NoSuchElementException.class).when(customerEntityService).delete(any(Customer.class));
+
+        assertThrows(NoSuchElementException.class, () -> customerService.delete(customer));
+
+        verify(customerEntityService).delete(any(Customer.class));
+    }
+
+    @Test
     void testDelete() {
     }
 
