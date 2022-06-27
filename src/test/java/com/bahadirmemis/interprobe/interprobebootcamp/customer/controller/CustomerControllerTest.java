@@ -1,5 +1,6 @@
 package com.bahadirmemis.interprobe.interprobebootcamp.customer.controller;
 
+import com.bahadirmemis.interprobe.interprobebootcamp.BaseTest;
 import com.bahadirmemis.interprobe.interprobebootcamp.generic.response.RestResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -21,6 +22,7 @@ import java.io.UnsupportedEncodingException;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -29,13 +31,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
-class CustomerControllerTest {
+class CustomerControllerTest extends BaseTest {
+
+    private static final String BASE_PATH = "/api/v1/customers";
 
     @Autowired
     private WebApplicationContext context;
 
     private MockMvc mockMvc;
-    private ObjectMapper objectMapper;
 
     @BeforeEach
     void setup(){
@@ -47,7 +50,7 @@ class CustomerControllerTest {
     void findAll() throws Exception {
 
         MvcResult result = mockMvc.perform(
-                get("/api/v1/customers").content("").contentType(MediaType.APPLICATION_JSON)
+                get(BASE_PATH).content("").contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk()).andReturn();
 
         boolean isSuccess = isSuccess(result);
@@ -55,21 +58,21 @@ class CustomerControllerTest {
         assertTrue(isSuccess);
     }
 
-    private boolean isSuccess(MvcResult result) throws Exception {
-
-        RestResponse restResponse = objectMapper.readValue(result.getResponse().getContentAsString(), RestResponse.class);
-
-        boolean isSuccess = restResponse.isSuccess();
-
-        return isSuccess;
-    }
-
     @Test
-    void findById() {
+    void findById() throws Exception {
+
+        MvcResult result = mockMvc.perform(
+                get(BASE_PATH + "/1").content("").contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isOk()).andReturn();
+
+        boolean isSuccess = isSuccess(result);
+
+        assertTrue(isSuccess);
     }
 
     @Test
     void save() {
+
     }
 
     @Test
