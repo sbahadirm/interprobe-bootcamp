@@ -3,7 +3,6 @@ package com.bahadirmemis.interprobe.interprobebootcamp.customer.controller;
 import com.bahadirmemis.interprobe.interprobebootcamp.customer.dto.CustomerResponseDto;
 import com.bahadirmemis.interprobe.interprobebootcamp.customer.dto.CustomerSaveRequestDto;
 import com.bahadirmemis.interprobe.interprobebootcamp.customer.dto.CustomerUpdateRequestDto;
-import com.bahadirmemis.interprobe.interprobebootcamp.customer.entity.Customer;
 import com.bahadirmemis.interprobe.interprobebootcamp.customer.service.CustomerService;
 import com.bahadirmemis.interprobe.interprobebootcamp.generic.response.RestResponse;
 import lombok.RequiredArgsConstructor;
