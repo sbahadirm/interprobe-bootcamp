@@ -1,9 +1,9 @@
 package com.bahadirmemis.interprobe.interprobebootcamp.customer.controller;
 
 import com.bahadirmemis.interprobe.interprobebootcamp.BaseTest;
+import com.bahadirmemis.interprobe.interprobebootcamp.InterprobeBootcampApplication;
+import com.bahadirmemis.interprobe.interprobebootcamp.config.H2TestProfileJPAConfig;
 import com.bahadirmemis.interprobe.interprobebootcamp.customer.dto.CustomerSaveRequestDto;
-import com.bahadirmemis.interprobe.interprobebootcamp.customer.dto.CustomerUpdateRequestDto;
-import com.bahadirmemis.interprobe.interprobebootcamp.generic.response.RestResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,14 +16,12 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -32,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @since 1.0.0
  */
 @ExtendWith(MockitoExtension.class)
-@SpringBootTest
+@SpringBootTest(classes = {InterprobeBootcampApplication.class, H2TestProfileJPAConfig.class})
 class CustomerControllerTest extends BaseTest {
 
     private static final String BASE_PATH = "/api/v1/customers";
@@ -64,7 +62,7 @@ class CustomerControllerTest extends BaseTest {
     void findById() throws Exception {
 
         MvcResult result = mockMvc.perform(
-                get(BASE_PATH + "/1").content("").contentType(MediaType.APPLICATION_JSON)
+                get(BASE_PATH + "/1000").content("").contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk()).andReturn();
 
         boolean isSuccess = isSuccess(result);
@@ -122,7 +120,7 @@ class CustomerControllerTest extends BaseTest {
     void delete() throws Exception {
 
         MvcResult result = mockMvc.perform(
-                MockMvcRequestBuilders.delete(BASE_PATH + "/302").content("302").contentType(MediaType.APPLICATION_JSON)
+                MockMvcRequestBuilders.delete(BASE_PATH + "/1001").content("1001").contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk()).andReturn();
 
         boolean isSuccess = isSuccess(result);
@@ -134,7 +132,7 @@ class CustomerControllerTest extends BaseTest {
     void update() throws Exception {
 
         String body = "{\n" +
-                "  \"id\": 252,\n" +
+                "  \"id\": 1002,\n" +
                 "  \"name\": \"string\",\n" +
                 "  \"surname\": \"string\",\n" +
                 "  \"username\": \"string\",\n" +
@@ -157,7 +155,7 @@ class CustomerControllerTest extends BaseTest {
     void cancel() throws Exception {
 
         MvcResult result = mockMvc.perform(
-                patch(BASE_PATH+ "/cancel/252").content("252").contentType(MediaType.APPLICATION_JSON)
+                patch(BASE_PATH+ "/cancel/1003").content("1003").contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk()).andReturn();
 
         boolean isSuccess = isSuccess(result);
