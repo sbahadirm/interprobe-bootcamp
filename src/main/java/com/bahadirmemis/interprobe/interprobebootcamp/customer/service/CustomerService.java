@@ -40,7 +40,7 @@ public class CustomerService {
 
     public CustomerResponseDto findById(Long id){
 
-        Customer customer = customerEntityService.findById(id).orElseThrow();
+        Customer customer = customerEntityService.findByIdWithControl(id);
 
         CustomerResponseDto customerResponseDto = CustomerMapper.INSTANCE.convertToCustomerResponseDto(customer);
 
@@ -77,7 +77,7 @@ public class CustomerService {
 
     public CustomerResponseDto cancel(Long id){
 
-        Customer customer = customerEntityService.findById(id).orElseThrow();
+        Customer customer = customerEntityService.findByIdWithControl(id);
         customer.setStatus(EnumStatus.PASSIVE);
         customer.setCancelDate(new Date());
 

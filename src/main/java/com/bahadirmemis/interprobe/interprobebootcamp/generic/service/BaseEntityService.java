@@ -1,6 +1,8 @@
 package com.bahadirmemis.interprobe.interprobebootcamp.generic.service;
 
 import com.bahadirmemis.interprobe.interprobebootcamp.generic.entity.BaseEntity;
+import com.bahadirmemis.interprobe.interprobebootcamp.generic.enums.GeneralErrorMessage;
+import com.bahadirmemis.interprobe.interprobebootcamp.generic.exceptions.ItemNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,16 @@ public abstract class BaseEntityService<E extends BaseEntity, D extends JpaRepos
 
     public Optional<E> findById(Long id){
         return dao.findById(id);
+    }
+
+    public E findByIdWithControl(Long id){
+        Optional<E> optionalE = dao.findById(id);
+
+        if (optionalE.isPresent()){
+            return optionalE.get();
+        } else {
+            throw new ItemNotFoundException(GeneralErrorMessage.ITEM_NOT_FOUND);
+        }
     }
 
     public E save(E entity){

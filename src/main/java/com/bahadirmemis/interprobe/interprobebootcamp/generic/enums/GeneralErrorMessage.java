@@ -9,6 +9,7 @@ import com.bahadirmemis.interprobe.interprobebootcamp.generic.exceptions.BaseErr
 public enum GeneralErrorMessage implements BaseErrorMessage {
 
     VALUES_CANNOT_BE_NULL("Values cannot be null!"),
+    ITEM_NOT_FOUND("Item not found!")
     ;
 
     private String message;

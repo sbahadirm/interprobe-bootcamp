@@ -3,9 +3,11 @@ package com.bahadirmemis.interprobe.interprobebootcamp.customer.service;
 import com.bahadirmemis.interprobe.interprobebootcamp.customer.dto.CustomerResponseDto;
 import com.bahadirmemis.interprobe.interprobebootcamp.customer.dto.CustomerSaveRequestDto;
 import com.bahadirmemis.interprobe.interprobebootcamp.customer.entity.Customer;
+import com.bahadirmemis.interprobe.interprobebootcamp.customer.enums.EnumStatus;
 import com.bahadirmemis.interprobe.interprobebootcamp.customer.service.entityservice.CustomerEntityService;
 import com.bahadirmemis.interprobe.interprobebootcamp.generic.enums.GeneralErrorMessage;
 import com.bahadirmemis.interprobe.interprobebootcamp.generic.exceptions.BusinessException;
+import com.bahadirmemis.interprobe.interprobebootcamp.generic.exceptions.ItemNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -84,9 +86,9 @@ class CustomerServiceTest {
     @Test
     void shouldNotFindByIdWhenIdDoesNotExist() {
 
-        when(customerEntityService.findById(anyLong())).thenThrow(NoSuchElementException.class);
+        when(customerEntityService.findByIdWithControl(anyLong())).thenThrow(ItemNotFoundException.class);
 
-        assertThrows(NoSuchElementException.class, () -> customerService.findById(-1L));
+        assertThrows(ItemNotFoundException.class, () -> customerService.findById(-1L));
 
     }
 
@@ -179,7 +181,27 @@ class CustomerServiceTest {
     }
 
     @Test
-    void cancel() {
+    void shouldCancel() {
+
+        Customer customer1 = mock(Customer.class);
+        Customer customer2 = mock(Customer.class);
+        when(customer2.getStatus()).thenReturn(EnumStatus.PASSIVE);
+
+        when(customerEntityService.findByIdWithControl(anyLong())).thenReturn(customer1);
+        when(customerEntityService.save(any())).thenReturn(customer2);
+
+        CustomerResponseDto result = customerService.cancel(1L);
+
+        assertEquals(EnumStatus.PASSIVE, result.getStatus());
+    }
+
+    @Test
+    void shouldNotCancelWhenIdDoesNotExist() {
+
+        when(customerEntityService.findByIdWithControl(anyLong())).thenThrow(ItemNotFoundException.class);
+
+        assertThrows(ItemNotFoundException.class, ()-> customerService.cancel(1L));
+
     }
 
     @Test
