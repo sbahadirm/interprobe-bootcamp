@@ -154,6 +154,14 @@ class CustomerControllerTest extends BaseTest {
     }
 
     @Test
-    void cancel() {
+    void cancel() throws Exception {
+
+        MvcResult result = mockMvc.perform(
+                patch(BASE_PATH+ "/cancel/252").content("252").contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isOk()).andReturn();
+
+        boolean isSuccess = isSuccess(result);
+
+        assertTrue(isSuccess);
     }
 }
