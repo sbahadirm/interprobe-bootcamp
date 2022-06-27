@@ -159,11 +159,23 @@ class CustomerServiceTest {
     }
 
     @Test
-    void testDelete() {
+    void shouldExist() {
+
+        when(customerEntityService.isExist(anyLong())).thenReturn(Boolean.TRUE);
+
+        boolean isExist = customerService.isExist(1L);
+
+        assertTrue(isExist);
     }
 
     @Test
-    void isExist() {
+    void shouldNotExist() {
+
+        when(customerEntityService.isExist(anyLong())).thenReturn(Boolean.FALSE);
+
+        boolean isExist = customerService.isExist(1L);
+
+        assertFalse(isExist);
     }
 
     @Test
