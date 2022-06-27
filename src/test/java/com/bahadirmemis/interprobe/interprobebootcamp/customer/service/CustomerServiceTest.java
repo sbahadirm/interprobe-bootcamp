@@ -77,7 +77,7 @@ class CustomerServiceTest {
         Customer customer = mock(Customer.class);
         when(customer.getId()).thenReturn(1L);
 
-        when(customerEntityService.findById(anyLong())).thenReturn(Optional.of(customer));
+        when(customerEntityService.findByIdWithControl(anyLong())).thenReturn(customer);
 
         CustomerResponseDto result = customerService.findById(1L);
 
