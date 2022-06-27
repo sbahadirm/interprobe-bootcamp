@@ -71,8 +71,25 @@ class CustomerControllerTest extends BaseTest {
     }
 
     @Test
-    void save() {
+    void save() throws Exception {
 
+        String body = "{\n" +
+                "  \"name\": \"Integration\",\n" +
+                "  \"surname\": \"Test\",\n" +
+                "  \"username\": \"itest\",\n" +
+                "  \"password\": \"1231231234\",\n" +
+                "  \"phoneNumber\": \"122334343\",\n" +
+                "  \"email\": \"integration@test.com\",\n" +
+                "  \"birthDate\": \"2022-06-27T17:48:06.261Z\"\n" +
+                "}";
+
+        MvcResult result = mockMvc.perform(
+                post(BASE_PATH).content(body).contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isOk()).andReturn();
+
+        boolean isSuccess = isSuccess(result);
+
+        assertTrue(isSuccess);
     }
 
     @Test
