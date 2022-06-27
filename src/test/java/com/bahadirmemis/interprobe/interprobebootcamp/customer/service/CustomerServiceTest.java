@@ -206,7 +206,7 @@ class CustomerServiceTest {
     }
 
     @Test
-    void update() {
+    void shouldUpdate() {
 
         CustomerUpdateRequestDto customerUpdateRequestDto = mock(CustomerUpdateRequestDto.class);
         Customer customer = mock(Customer.class);
@@ -218,5 +218,16 @@ class CustomerServiceTest {
         CustomerResponseDto result = customerService.update(customerUpdateRequestDto);
 
         assertEquals(1L, result.getId());
+    }
+
+    @Test
+    void shouldNotUpdate() {
+
+        CustomerUpdateRequestDto customerUpdateRequestDto = mock(CustomerUpdateRequestDto.class);
+
+        when(customerEntityService.isExist(anyLong())).thenReturn(Boolean.FALSE);
+
+        assertThrows(ItemNotFoundException.class, () -> customerService.update(customerUpdateRequestDto));
+
     }
 }
