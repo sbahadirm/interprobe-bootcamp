@@ -21,8 +21,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * @author Bahadır Memiş
@@ -116,7 +115,13 @@ class CustomerServiceTest {
     }
 
     @Test
-    void delete() {
+    void shouldDelete() {
+
+        doNothing().when(customerEntityService).delete(anyLong());
+
+        customerService.delete(1L);
+
+        verify(customerEntityService).delete(anyLong());
     }
 
     @Test
