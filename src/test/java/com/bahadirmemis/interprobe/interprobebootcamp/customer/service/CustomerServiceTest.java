@@ -106,11 +106,12 @@ class CustomerServiceTest {
         assertEquals(1L, result.getId());
     }
 
+    @Test
     void shouldNotSaveWhenParameterIsNull() {
 
         BusinessException businessException = assertThrows(BusinessException.class, () -> customerService.save(null));
 
-        assertEquals(GeneralErrorMessage.VALUES_CANNOT_BE_NULL, businessException);
+        assertEquals(GeneralErrorMessage.VALUES_CANNOT_BE_NULL, businessException.getBaseErrorMessage());
 
     }
 
