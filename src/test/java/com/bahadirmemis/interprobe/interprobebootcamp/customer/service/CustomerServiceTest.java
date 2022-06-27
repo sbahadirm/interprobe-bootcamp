@@ -125,6 +125,16 @@ class CustomerServiceTest {
     }
 
     @Test
+    void shouldNotDelete() {
+
+        doThrow(NoSuchElementException.class).when(customerEntityService).delete(anyLong());
+
+        assertThrows(NoSuchElementException.class, () -> customerService.delete(anyLong()));
+
+        verify(customerEntityService).delete(anyLong());
+    }
+
+    @Test
     void testDelete() {
     }
 
