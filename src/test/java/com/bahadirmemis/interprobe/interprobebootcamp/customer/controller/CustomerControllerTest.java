@@ -2,6 +2,7 @@ package com.bahadirmemis.interprobe.interprobebootcamp.customer.controller;
 
 import com.bahadirmemis.interprobe.interprobebootcamp.BaseTest;
 import com.bahadirmemis.interprobe.interprobebootcamp.customer.dto.CustomerSaveRequestDto;
+import com.bahadirmemis.interprobe.interprobebootcamp.customer.dto.CustomerUpdateRequestDto;
 import com.bahadirmemis.interprobe.interprobebootcamp.generic.response.RestResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -23,8 +24,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -131,7 +131,26 @@ class CustomerControllerTest extends BaseTest {
     }
 
     @Test
-    void update() {
+    void update() throws Exception {
+
+        String body = "{\n" +
+                "  \"id\": 252,\n" +
+                "  \"name\": \"string\",\n" +
+                "  \"surname\": \"string\",\n" +
+                "  \"username\": \"string\",\n" +
+                "  \"password\": \"string\",\n" +
+                "  \"phoneNumber\": \"string\",\n" +
+                "  \"email\": \"string@str.com\",\n" +
+                "  \"birthDate\": \"2022-06-27T17:57:20.661Z\"\n" +
+                "}";
+
+        MvcResult result = mockMvc.perform(
+                put(BASE_PATH).content(body).contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isOk()).andReturn();
+
+        boolean isSuccess = isSuccess(result);
+
+        assertTrue(isSuccess);
     }
 
     @Test
