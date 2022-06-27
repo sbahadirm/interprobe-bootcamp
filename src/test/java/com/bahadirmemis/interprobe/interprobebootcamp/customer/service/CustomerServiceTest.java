@@ -2,6 +2,7 @@ package com.bahadirmemis.interprobe.interprobebootcamp.customer.service;
 
 import com.bahadirmemis.interprobe.interprobebootcamp.customer.dto.CustomerResponseDto;
 import com.bahadirmemis.interprobe.interprobebootcamp.customer.dto.CustomerSaveRequestDto;
+import com.bahadirmemis.interprobe.interprobebootcamp.customer.dto.CustomerUpdateRequestDto;
 import com.bahadirmemis.interprobe.interprobebootcamp.customer.entity.Customer;
 import com.bahadirmemis.interprobe.interprobebootcamp.customer.enums.EnumStatus;
 import com.bahadirmemis.interprobe.interprobebootcamp.customer.service.entityservice.CustomerEntityService;
@@ -206,5 +207,16 @@ class CustomerServiceTest {
 
     @Test
     void update() {
+
+        CustomerUpdateRequestDto customerUpdateRequestDto = mock(CustomerUpdateRequestDto.class);
+        Customer customer = mock(Customer.class);
+        when(customer.getId()).thenReturn(1L);
+
+        when(customerEntityService.isExist(anyLong())).thenReturn(Boolean.TRUE);
+        when(customerEntityService.save(any())).thenReturn(customer);
+
+        CustomerResponseDto result = customerService.update(customerUpdateRequestDto);
+
+        assertEquals(1L, result.getId());
     }
 }
